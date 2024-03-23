@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top YouTube Picks</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f9f9f9;
+      height: 700px;
+      width: 300px;
+      overflow-y: auto;
+    }
+
+    #sidebar h2 {
+      margin-top: 2px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 20px;
+    }
+
+    #videoList {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #videoList li {
+      margin-top: 23px;
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Top YouTube Picks</h1>
+    <div id="sidebar">
+      <h2>Your Personal Playlist</h2>
+      <ul id="videoList">
+        <!-- Video items jquery used -->
+      </ul>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="text-center">
+          <h2>Add Video</h2><br><br>
+          <form id="addVideoForm" class="d-inline-block text-left">
+            <div class="form-group">
+              <label for="videoTitle">Title:</label>
+              <input type="text" class="form-control" id="videoTitle" style="width: 500px;" required>
+            </div><br>
+            <div class="form-group">
+              <label for="videoUrl">URL:</label>
+              <input type="url" class="form-control" id="videoUrl" style="width: 500px;" required>
+            </div><br>
+            <button type="submit" class="btn btn-primary">Add Video</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+
+      var videos = [
+        { title: "HTML & CSS Full Course", url: "https://youtu.be/G3e-cpL7ofc?si=BtnM0Ft2oP5edaUs" },
+        { title: "Python Tutorial", url: "https://youtu.be/m67-bOpOoPU?si=90Bw_aZ9SXTvWU-o" },
+        { title: "Git & Github", url: "https://youtu.be/hTYsf6bdSJ8?si=ZqCfE0eLSCWgvwoF" },
+      ];
+
+      $.each(videos, function (index, video) {
+        $("#videoList").append('<li>' + video.title + ' - <a href="' + video.url + '">Watch</a> <button class="btn btn-danger btn-sm float-right deleteVideo"><i class="fas fa-trash-alt"></i></button></li>');
+      });
+
+      $("#addVideoForm").submit(function (event) {
+        event.preventDefault();
+        var title = $("#videoTitle").val();
+        var url = $("#videoUrl").val();
+        if (title && url) {
+          $("#videoList").append('<li>' + title + ' - <a href="' + url + '">Watch</a> <button class="btn btn-danger btn-sm float-right deleteVideo"><i class="fas fa-trash-alt"></i></button></li>');
+          $("#addVideoForm")[0].reset();
+        } else {
+          alert("Please enter both title and URL.");
+        }
+      });
+
+      $(document).on("click", ".deleteVideo", function () {
+        if (confirm("Are you sure you want to delete this video?")) {
+          $(this).closest("li").remove();
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
